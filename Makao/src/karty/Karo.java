@@ -3,7 +3,7 @@ package karty;
 import exceptions.CardException;
 
 public class Karo extends  Karta{
-	private static String kolor = "trefl";
+	private static String kolor = "Karo";
 	
 	public Karo (int wartosc) throws CardException {
 		super(wartosc,kolor);

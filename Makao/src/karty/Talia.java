@@ -5,14 +5,9 @@ import java.util.*;
 import exceptions.CardException;
 
 public class Talia{
-
-	private static final long serialVersionUID = 1923695545987559264L;
-	
 	/**
-	 * Tablica 52-elementowa zawieraj¹ca obiekty klasy Karta
+	 * 52 elementowy stos kart
 	 */
-//	private Karta[] talia = new Karta[52];
-	
 	private Stack<Karta> talia = new Stack<Karta>();
 	
 	/**

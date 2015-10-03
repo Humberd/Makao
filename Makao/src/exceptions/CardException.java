@@ -9,7 +9,7 @@ public class CardException extends Exception {
 			case 1: System.err.println("Wartoœæ karty jest niepoprawna."); break;
 			case 2: System.err.println("Brak wartosci karty."); break;
 			case 3: System.err.println("Z³y kolor karty."); break;
-			default: System.err.println("Wyst¹pi³ b³¹d."); break;
+			default: System.err.println("Wyst¹pi³ b³¹d - b³êdny kod b³êdu"); break;
 		}
 	}
 }

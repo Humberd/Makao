@@ -7,10 +7,8 @@ public class Main {
 
 	public static void main(String[] args) throws CardException {
 		try {
-			Karta karta = new Karo(13);
-			System.out.println(karta);
-//			karta = new Kier(2);
-//			System.out.println(karta);
+			Talia talia = new Talia();
+			talia.printTalia();
 		} catch (CardException e) {
 			
 		}

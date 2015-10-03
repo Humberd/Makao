@@ -11,6 +11,5 @@ public class CardException extends Exception {
 			case 3: System.err.println("Z³y kolor karty."); break;
 			default: System.err.println("Wyst¹pi³ b³¹d."); break;
 		}
-		printStackTrace();
 	}
 }

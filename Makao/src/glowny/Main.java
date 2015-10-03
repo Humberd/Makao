@@ -9,6 +9,8 @@ public class Main {
 		try {
 			Talia talia = new Talia();
 			talia.printTalia();
+			talia.tasuj();
+			talia.printTalia();
 		} catch (CardException e) {
 			
 		}

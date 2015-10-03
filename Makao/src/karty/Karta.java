@@ -41,10 +41,9 @@ public abstract class Karta {
 		} else {
 			throw new CardException(1);
 		}
-		if (kolor.toLowerCase() == "pik" || kolor.toLowerCase() == "trefl" || kolor.toLowerCase() == "karo" || kolor.toLowerCase() == "kier") {
+		if (kolor== "Pik" || kolor== "Trefl" || kolor == "Karo" || kolor== "Kier") {
 			this.kolor = kolor;
 		} else {
-			System.out.println(kolor.toLowerCase() == "karo");
 			throw new CardException(3);
 		}
 		String[] tablicaWartosciTextowych = {"Dwójka","Trójka","Czwórka","Pi¹tka","Szóstka","Siódemka","Ósemka","Dziewi¹tka","Dziesi¹tka","Walet","Dama","Król","As"};

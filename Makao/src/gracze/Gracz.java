@@ -1,5 +1,9 @@
 package gracze;
 
-public abstract class Gracz {
+import karty.Karta;
+import rozgrywka.Gra;
 
+public abstract class Gracz {
+	private Gra gra;
+	private Karta[] reka;
 }

@@ -9,6 +9,7 @@ public class Gra {
 	private int rozmiarStolu = 4;
 	private Gracz[] gracze = new Gracz[rozmiarStolu];
 	private Talia talia;
+	private Arbiter arbiter = new Arbiter();
 	private int aktualnyRuch = 0;
 	
 	public Gra() throws CardException {

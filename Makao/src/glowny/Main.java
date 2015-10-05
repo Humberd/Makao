@@ -19,9 +19,11 @@ public class Main {
 //		}
 		Gra gra = new Gra();
 		Gracz gracz = new Czlowiek();
+		Gracz gracz2 = new Czlowiek();
 		System.out.println(gra.dodajGraczaDoGry(gracz));
+		System.out.println(gra.dodajGraczaDoGry(gracz2));
 		System.out.println(gra.usunGraczaZGry(gracz));
-		System.out.println(gra.usunGraczaZGry(gracz));
+		System.out.println(gra.usunGraczaZGry(gracz2));
 
 		
 

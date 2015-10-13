@@ -31,4 +31,24 @@ public abstract class Gracz {
 		return gra;
 	}
 	
+	public void setGra(Gra gra) {
+		this.gra = gra;
+	}
+
+	public Karta[] getReka() {
+		return reka;
+	}
+
+	public void setReka(Karta[] reka) {
+		this.reka = reka;
+	}
+
+	public Karta[] getWybraneKarty() {
+		return wybraneKarty;
+	}
+
+	public void setWybraneKarty(Karta[] wybraneKarty) {
+		this.wybraneKarty = wybraneKarty;
+	}
+	
 }

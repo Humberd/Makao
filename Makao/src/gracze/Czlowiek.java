@@ -6,20 +6,17 @@ public class Czlowiek extends Gracz{
 
 	@Override
 	public boolean zmienKolor(Class<Karta> kolor) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.getGra().zmienKolor(this, kolor);
 	}
 
 	@Override
 	public boolean zadaj(int wartosc) { // ¿¹daj
-		// TODO Auto-generated method stub
-		return false;
+		return this.getGra().zadaj(this, wartosc);
 	}
 
 	@Override
 	public boolean wykonajRuch(Karta[] karty) {
-		this.getGra().wykonajRuch(this, karty);
-		return false;
+		return this.getGra().wykonajRuch(this, karty);
 	}
 
 }

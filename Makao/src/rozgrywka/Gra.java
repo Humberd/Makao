@@ -22,7 +22,7 @@ public class Gra {
 	/**
 	 * Arbiter gry, który zna zasady rozgrywki
 	 */
-	private Arbiter arbiter = new Arbiter();
+	private Arbiter arbiter = new Arbiter(this);
 	/**
 	 * Zmienna przechowuj¹ca indeks gracza w tablicy "gracze", który aktualnie ma wykonaæ ruch
 	 */
@@ -32,6 +32,26 @@ public class Gra {
 	 * false - gra sie nie zaczela
 	 */
 	private boolean stanGry = false;
+	/**
+	 * Zmienna przechowujaca ¿¹dan¹ wartoœæ, jesli jest 0, tzn, ¿e nikt nic nie ¿¹da
+	 */
+	private int zadanie = 0;
+	/**
+	 * Zmienna zawieraj¹ca liczbê osób, aby sprawdziæ, czy minê³a kolejka ¿¹dania
+	 */
+	private int zadanieKolejka = 0;
+	/**
+	 * Zmienna przechowujaca ¿¹dany kolor, jesli jest null, tzn, ¿e nikt nic nie ¿¹da
+	 */
+	private Class<Karta> zmianaKoloru = null;
+	/**
+	 * Czy gracz, który ma aktualnie kolejkê mo¿e ¿¹daæ kartê
+	 */
+	private boolean czyMozeZadac = false;
+	/**
+	 * Czy gracz, który ma aktualnie kolejkê mo¿e zmieniæ kolor
+	 */
+	private boolean czyMozeZmienicKolor = false;
 	
 	public Gra() throws CardException {
 		this.talia = new Talia();
@@ -47,7 +67,10 @@ public class Gra {
 		if (!this.sprawdzCzyGraczJestPrzyStole(gracz)) {
 			for (int i =0; i<this.gracze.length; i++) {
 				if (this.gracze[i] == null) {
+					//dodaje gracza do listy graczy przy stole
 					this.gracze[i] = gracz;
+					//dodaje aktualna gre w polu gracza
+					gracz.setGra(this);
 					return true;
 				}
 			}
@@ -90,12 +113,15 @@ public class Gra {
 	public boolean usunGraczaZGry(Gracz gracz) {
 		for (int i=0; i< this.gracze.length; i++) {
 			if (this.gracze[i] == gracz) {
+				//usuwa gre z pola gracza
+				gracz.setGra(null);
+				//usuwa gracza z listy graczy przy stole
 				this.gracze[i] = null;
 				//jeœli jest kolej gracza na ruch, to przekazuje ruch kolejnemu graczowi
 				if (this.aktualnyRuch == i) {
 					this.przekazRuchNastepnemuGraczowi();
 				}
-				//czy jest minimum dwoch graczy przy stole
+				//czy jest mniej niz dwoch graczy przy stole, to konczy gre
 				if ((this.rozmiarStolu - this.getWolneMiejscaPrzyStole()) < 2) {
 					this.stanGry = false;
 				}
@@ -109,6 +135,8 @@ public class Gra {
 	 * Metoda przekazuj¹ca ruch nastêpnemu graczowi. Jeœli nie ma graczy przy stole ustala wartosæ this.aktualnyRuch na 0
 	 */
 	private void przekazRuchNastepnemuGraczowi() {
+		this.czyMozeZadac = false;
+		this.czyMozeZmienicKolor = false;
 		if (this.rozmiarStolu == this.getWolneMiejscaPrzyStole()) {
 			this.aktualnyRuch = 0;
 			return;
@@ -137,8 +165,139 @@ public class Gra {
 		return this.stanGry;
 	}
 	
-	public boolean wykonajRuch(Gracz gracz, Karta[] karty) {
-		
+	public int getAktualnyRuch() {
+		return this.aktualnyRuch;
+	}
+	
+	public int getZadanie() {
+		return zadanie;
+	}
+
+	public void setZadanie(int zadanie) {
+		this.zadanie = zadanie;
+	}
+
+	public int getZadanieKolejka() {
+		return zadanieKolejka;
+	}
+
+	public void setZadanieKolejka(int zadanieKolejka) {
+		this.zadanieKolejka = zadanieKolejka;
+	}
+
+	public Class<Karta> getZmianaKoloru() {
+		return zmianaKoloru;
+	}
+
+	public void setZmianaKoloru(Class<Karta> zmianaKoloru) {
+		this.zmianaKoloru = zmianaKoloru;
+	}
+	
+	public boolean isCzyMozeZadac() {
+		return czyMozeZadac;
+	}
+
+	public void setCzyMozeZadac(boolean czyMozeZadac) {
+		this.czyMozeZadac = czyMozeZadac;
+	}
+
+	public boolean isCzyMozeZmienicKolor() {
+		return czyMozeZmienicKolor;
+	}
+
+	public void setCzyMozeZmienicKolor(boolean czyMozeZmienicKolor) {
+		this.czyMozeZmienicKolor = czyMozeZmienicKolor;
+	}
+	
+	/**
+	 * @param gracz - instancja gracza, ktora bedzie metoda identyfikacji
+	 * @param kolor - instancja klasy reprezentuj¹ca zmieniany kolor
+	 * @return true - poprawnie zmieniono kolor
+	 * @return false - nie mozna zmienic koloru
+	 */
+	public boolean zmienKolor(Gracz gracz, Class<Karta> kolor) {
+		//jesli gra sie nie rozpoczela, to to nie pozwalam wykonaæ ruchu
+		if (!this.stanGry) {
+			return false;
+		}
+		//sprawdzam czy gracz jest przy stole
+		for (int i =0; i<this.rozmiarStolu; i++) {
+			if (gracze[i] == gracz) {
+				//jesli jest przy stole to sprawdzam, czy jest jego ruch
+				if (i == this.aktualnyRuch) {
+					//jesli jest jego ruch, to sprawdzam, czy moze zmienic kolor
+					if (this.czyMozeZmienicKolor) {
+						//jesli moze zmienic kolor, to zmienia
+						this.zmianaKoloru = kolor;
+						return true;
+					}
+				} else {
+					return false;
+				}
+			}
+		}
 		return false;
 	}
+	
+	/**
+	 * @param gracz - instancja gracza, ktora bedzie metoda identyfikacji
+	 * @param wartosc - zadana wartosc
+	 * @return true - zaakceptowano ¿¹danie
+	 * @return false - odrzucono ¿¹danie
+	 */
+	public boolean zadaj (Gracz gracz, int wartosc) {
+		//jesli gra sie nie rozpoczela, to to nie pozwalam wykonaæ ruchu
+		if (!this.stanGry) {
+			return false;
+		}
+		//sprawdzam czy gracz jest przy stole
+		for (int i = 0; i<this.rozmiarStolu; i++) {
+			if (gracze[i] == gracz) {
+				//jesli jest przy stole to sprawdzam, czy jest jego ruch
+				if (i == this.aktualnyRuch) {
+					//jesli to jest jego ruch, to sprawdzam, czy mo¿na ¿¹daæ
+					if (this.czyMozeZadac) {
+						//jesli mozna ¿¹daæ, to zmienia ¿¹danie
+						this.zadanie = wartosc;
+						//oraz zaczyna kolejke ¿¹dania od nowa
+						this.zadanieKolejka = 0;
+						return true;
+					}
+				} else {
+					//jesli nie jest ruch gracza to nie pozwalam na ruch
+					return false;
+				}
+			}
+		}
+		return false;
+	}
+	/**
+	 * @param gracz - instancja gracza, ktora bedzie metoda identyfikacji
+	 * @param karty - tablica kart rzuconych przez gracza
+	 * @return true - zaakceptowano ruch
+	 * @return false - odrzucono ruch
+	 */
+	public boolean wykonajRuch(Gracz gracz, Karta[] karty) {
+		//jesli gra sie nie rozpoczela, to to nie pozwalam wykonaæ ruchu
+		if (!this.stanGry) {
+			return false;
+		}
+		//sprawdzam czy gracz jest przy stole
+		for (int i = 0; i<this.rozmiarStolu; i++) {
+			if (gracze[i] == gracz) {
+				//jesli jest przy stole to sprawdzam, czy jest jego ruch
+				if (i == this.aktualnyRuch) {
+					// TODO wyslanie zapytania do arbitra
+					System.out.println("TO jest jego aktualny ruch");
+//					this.przekazRuchNastepnemuGraczowi(); //ARBITER - to musi wyrzucac arbiter
+					return true;
+				} else {
+					//jesli nie jest ruch gracza to nie pozwalam na ruch
+					return false;
+				}
+			}
+		}
+		return false;
+	}
+
 }

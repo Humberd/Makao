@@ -10,13 +10,22 @@ public abstract class Gracz {
 	private Gra gra;
 	
 	/**
-	 * 
+	 * Karty, które gracz posiada na rêce
 	 */
 	private Karta[] reka;
+	/**
+	 * Karty, które wybiera gracz, aby wys³aæ do servera
+	 */
 	private Karta[] wybraneKarty;
 	
 	/**
 	 * @return
 	 */
-	public abstract boolean zmienKolor(); 
+	public abstract boolean zmienKolor(Class<Karta> kolor); 
+	
+	public abstract boolean zadaj(int wartosc);
+	
+	public abstract boolean rzucKarty(Karta[] karty);
+	
+	
 }

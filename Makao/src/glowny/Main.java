@@ -1,8 +1,5 @@
 package glowny;
 
-import java.io.Console;
-import java.io.PrintWriter;
-
 import exceptions.CardException;
 import gracze.Czlowiek;
 import gracze.Gracz;
@@ -23,16 +20,20 @@ public class Main {
 		Gra gra = new Gra();
 		Gracz gracz = new Czlowiek();
 		Gracz gracz2 = new Czlowiek();
-//		System.out.println(gra.dodajGraczaDoGry(gracz));
-//		System.out.println(gra.dodajGraczaDoGry(gracz2));
-//		System.out.println(gra.usunGraczaZGry(gracz));
-//		System.out.println(gra.usunGraczaZGry(gracz2));
-		System.out.println("przed");
-		Console konsola = System.console();
-		PrintWriter out = konsola.writer();
+		Gracz gracz3 = new Czlowiek();
 		
-		out.println("printwriter");
-		System.out.println("po");
+		gra.rozpocznijGre();
+		gra.dodajGraczaDoGry(gracz);
+		gra.rozpocznijGre();
+		gra.dodajGraczaDoGry(gracz);
+		gra.rozpocznijGre();
+		gra.dodajGraczaDoGry(gracz2);
+		System.out.println(gra.getStanGry());
+		gra.rozpocznijGre();
+		System.out.println(gra.getStanGry());
+		gra.usunGraczaZGry(gracz3);
+		System.out.println(gra.getStanGry());
+		
 	}
 
 }

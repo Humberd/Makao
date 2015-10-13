@@ -49,5 +49,26 @@ public class Talia{
 		}
 	}
 	
+	public Karta pop() {
+		return this.talia.pop();
+	}
+	
+	public void push(Karta karta) {
+		this.talia.push(karta);
+	}
+	
+	public int size() {
+		return this.talia.size();
+	}
+	
+	public Karta peek() {
+		return this.talia.peek();
+	}
+	
+	public boolean empty() {
+		return this.talia.empty();
+	}
+	
+	
 
 }

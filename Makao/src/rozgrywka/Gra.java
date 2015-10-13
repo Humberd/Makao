@@ -43,9 +43,25 @@ public class Gra {
 	 * @return false - nie dodano gracza do gry
 	 */
 	public boolean dodajGraczaDoGry(Gracz gracz) {
-		for (int i =0; i<this.gracze.length; i++) {
-			if (this.gracze[i] == null) {
-				this.gracze[i] = gracz;
+		if (!this.sprawdzCzyGraczJestPrzyStole(gracz)) {
+			for (int i =0; i<this.gracze.length; i++) {
+				if (this.gracze[i] == null) {
+					this.gracze[i] = gracz;
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * @param gracz
+	 * @return true - gracz jest przy stole
+	 * @return false - gracz nie jest przy stole
+	 */
+	public boolean sprawdzCzyGraczJestPrzyStole(Gracz gracz) {
+		for (int i=0; i<this.gracze.length;i++){
+			if (this.gracze[i] == gracz) {
 				return true;
 			}
 		}
@@ -78,6 +94,10 @@ public class Gra {
 				if (this.aktualnyRuch == i) {
 					this.przekazRuchNastepnemuGraczowi();
 				}
+				//czy jest minimum dwoch graczy przy stole
+				if ((this.rozmiarStolu - this.getWolneMiejscaPrzyStole()) < 2) {
+					this.stanGry = false;
+				}
 				return true;
 			}
 		}
@@ -97,12 +117,22 @@ public class Gra {
 		} while (this.gracze[this.aktualnyRuch] == null);
 	}
 	
+	/**
+	 * Rozpoczyna gre, jesli jest min. 2 graczy przy stole, tasuje karty.
+	 */
 	public void rozpocznijGre () {
 		//jeœli jest conajmniej 2 graczy przy stole
 		if ((this.rozmiarStolu - this.getWolneMiejscaPrzyStole()) < 2) {
+			System.out.println("Gra nie wystartowala");
 			return;
 		}
 		
-//		this.talia.tasuj();
+		this.talia.tasuj();
+		//gra sie rozpoczela \/
+		this.stanGry = true;
+		System.out.println("Gra wystartowala");
+	}
+	public boolean getStanGry() {
+		return this.stanGry;
 	}
 }

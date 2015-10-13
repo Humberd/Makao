@@ -25,7 +25,10 @@ public abstract class Gracz {
 	
 	public abstract boolean zadaj(int wartosc);
 	
-	public abstract boolean rzucKarty(Karta[] karty);
+	public abstract boolean wykonajRuch(Karta[] karty);
 	
+	public Gra getGra() {
+		return gra;
+	}
 	
 }

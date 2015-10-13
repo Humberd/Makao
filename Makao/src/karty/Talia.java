@@ -11,6 +11,11 @@ public class Talia{
 	private Stack<Karta> talia = new Stack<Karta>();
 	
 	/**
+	 * stos zu¿ytych kart
+	 */
+	private Stack<Karta> uzyteKarty = new Stack<Karta>();
+	
+	/**
 	 * Konstruktor tworz¹cy taliê kart.
 	 * @throws CardException
 	 */
@@ -32,9 +37,20 @@ public class Talia{
 		Collections.shuffle(this.talia, new Random(seed));
 		Collections.shuffle(this.talia, new Random(seed));
 	}
+	/**
+	 * Przeklada karty ze stosu uzytych kart do talii, która bedzie sie grac
+	 */
+	public void przelozUzyteKartyDoTalii() {
+		this.talia.addAll(this.uzyteKarty);
+		this.uzyteKarty.clear();
+	}
 	
 	public Stack<Karta> getTalia() {
-		return talia;
+		return this.talia;
+	}
+	
+	public Stack<Karta> getUzyteKarty() {
+		return this.uzyteKarty;
 	}
 	
 	/**
@@ -43,30 +59,60 @@ public class Talia{
 	public void printTalia() {
 		@SuppressWarnings("unchecked")
 		Stack<Karta> talia =  (Stack<Karta>) this.talia.clone();
-		for (int i =0; i<52; i++){
+		int taliaSize = talia.size();
+		for (int i =0; i<taliaSize; i++){
 			System.out.print(talia.pop()+", ");
-			if (i%13 == 12 ) System.out.println();
+			if (i%13 == 12 || i == taliaSize-1) System.out.println();
 		}
 	}
-	
-	public Karta pop() {
+	public void printUzyteKarty() {
+		@SuppressWarnings("unchecked")
+		Stack<Karta> talia =  (Stack<Karta>) this.uzyteKarty.clone();
+		int taliaSize = talia.size();
+		for (int i =0; i<taliaSize; i++){
+			System.out.print(talia.pop()+", ");
+			if (i%13 == 12  || i == taliaSize-1) System.out.println();
+		}
+	}
+///////////////////////////////////////////////////////////////////////////
+	public Karta popTalia() {
 		return this.talia.pop();
 	}
 	
-	public void push(Karta karta) {
+	public void pushTalia(Karta karta) {
 		this.talia.push(karta);
 	}
 	
-	public int size() {
+	public int sizeTalia() {
 		return this.talia.size();
 	}
 	
-	public Karta peek() {
+	public Karta peekTalia() {
 		return this.talia.peek();
 	}
 	
-	public boolean empty() {
+	public boolean emptyTalia() {
 		return this.talia.empty();
+	}
+//////////////////////////////////////////////////////////////////////////////
+	public Karta popUzyteKarty() {
+		return this.uzyteKarty.pop();
+	}
+	
+	public void pushUzyteKarty(Karta karta) {
+		this.uzyteKarty.push(karta);
+	}
+	
+	public int sizeUzyteKarty() {
+		return this.uzyteKarty.size();
+	}
+	
+	public Karta peekUzyteKarty() {
+		return this.uzyteKarty.peek();
+	}
+	
+	public boolean emptyUzyteKarty() {
+		return this.uzyteKarty.empty();
 	}
 	
 	

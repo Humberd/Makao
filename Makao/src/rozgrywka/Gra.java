@@ -3,6 +3,7 @@ package rozgrywka;
 import exceptions.CardException;
 import gracze.Czlowiek;
 import gracze.Gracz;
+import karty.Karta;
 import karty.Talia;
 
 public class Gra {
@@ -134,5 +135,10 @@ public class Gra {
 	}
 	public boolean getStanGry() {
 		return this.stanGry;
+	}
+	
+	public boolean wykonajRuch(Gracz gracz, Karta[] karty) {
+		
+		return false;
 	}
 }

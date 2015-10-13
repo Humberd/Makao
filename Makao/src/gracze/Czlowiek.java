@@ -11,14 +11,14 @@ public class Czlowiek extends Gracz{
 	}
 
 	@Override
-	public boolean zadaj(int wartosc) {
+	public boolean zadaj(int wartosc) { // ¿¹daj
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean rzucKarty(Karta[] karty) {
-		System.out.println("zaladzi");
+	public boolean wykonajRuch(Karta[] karty) {
+		this.getGra().wykonajRuch(this, karty);
 		return false;
 	}
 

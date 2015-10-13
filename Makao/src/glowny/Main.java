@@ -21,19 +21,16 @@ public class Main {
 		Gracz gracz = new Czlowiek();
 		Gracz gracz2 = new Czlowiek();
 		Gracz gracz3 = new Czlowiek();
+		Talia talia = new Talia();
 		
-		gra.rozpocznijGre();
-		gra.dodajGraczaDoGry(gracz);
-		gra.rozpocznijGre();
-		gra.dodajGraczaDoGry(gracz);
-		gra.rozpocznijGre();
-		gra.dodajGraczaDoGry(gracz2);
-		System.out.println(gra.getStanGry());
-		gra.rozpocznijGre();
-		System.out.println(gra.getStanGry());
-		gra.usunGraczaZGry(gracz3);
-		System.out.println(gra.getStanGry());
-		
+		for (int i =0 ;i<12;i++) {
+			talia.pushUzyteKarty(talia.popTalia());
+		}
+		talia.przelozUzyteKartyDoTalii();
+		talia.printTalia();
+		System.out.println("------");
+		talia.printUzyteKarty();;
+		System.out.println("///////////");
 	}
 
 }

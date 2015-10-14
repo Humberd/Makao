@@ -1,8 +1,5 @@
 package karty;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import exceptions.CardException;
 
 /**

@@ -1,5 +1,7 @@
 package rozgrywka;
 
+import java.util.List;
+
 import exceptions.CardException;
 import gracze.Czlowiek;
 import gracze.Gracz;
@@ -18,7 +20,7 @@ public class Gra {
 	/**
 	 * Talia sk³adaj¹ca siê z 52 kart, którymi bêdzie grana gra.
 	 */
-	private Talia talia;
+	public Talia talia;
 	/**
 	 * Arbiter gry, który zna zasady rozgrywki
 	 */
@@ -277,7 +279,7 @@ public class Gra {
 	 * @return true - zaakceptowano ruch
 	 * @return false - odrzucono ruch
 	 */
-	public boolean wykonajRuch(Gracz gracz, Karta[] karty) {
+	public boolean wykonajRuch(Gracz gracz, List<Karta> karty) {
 		//jesli gra sie nie rozpoczela, to to nie pozwalam wykonaæ ruchu
 		if (!this.stanGry) {
 			return false;
@@ -299,5 +301,21 @@ public class Gra {
 		}
 		return false;
 	}
-
+	
+	/**
+	 * Rozdaje karty wszystkim graczom przy stole
+	 */
+	public void rozdajKarty() {
+		//liczba kart do rozdania kazdemu z graczy na poczatku rundy
+		int liczbaKart = 5;
+		for (int i =0; i<this.rozmiarStolu; i++) {
+			//jezeli miejsce przy stole jest zajete przez gracza
+			if (gracze[i] != null) {
+				//rozdaje 5 kart graczowi
+				for (int j = 0; j<liczbaKart; j++) {
+					gracze[i].dajKarteDoReki(this.talia.popTalia());
+				}
+			}
+		}
+	}
 }

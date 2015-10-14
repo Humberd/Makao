@@ -56,23 +56,25 @@ public class Talia{
 	/**
 	 * Drukuje na ekran taliê kart
 	 */
-	public void printTalia() {
-		@SuppressWarnings("unchecked")
-		Stack<Karta> talia =  (Stack<Karta>) this.talia.clone();
-		int taliaSize = talia.size();
-		for (int i =0; i<taliaSize; i++){
-			System.out.print(talia.pop()+", ");
-			if (i%13 == 12 || i == taliaSize-1) System.out.println();
-		}
+	public String printTalia() {
+//		@SuppressWarnings("unchecked")
+//		Stack<Karta> talia =  (Stack<Karta>) this.talia.clone();
+//		int taliaSize = talia.size();
+//		for (int i =0; i<taliaSize; i++){
+//			System.out.print(talia.pop()+", ");
+//			if (i%13 == 12 || i == taliaSize-1) System.out.println();
+//		}
+		return this.talia.toString();
 	}
-	public void printUzyteKarty() {
-		@SuppressWarnings("unchecked")
-		Stack<Karta> talia =  (Stack<Karta>) this.uzyteKarty.clone();
-		int taliaSize = talia.size();
-		for (int i =0; i<taliaSize; i++){
-			System.out.print(talia.pop()+", ");
-			if (i%13 == 12  || i == taliaSize-1) System.out.println();
-		}
+	public String printUzyteKarty() {
+//		@SuppressWarnings("unchecked")
+//		Stack<Karta> talia =  (Stack<Karta>) this.uzyteKarty.clone();
+//		int taliaSize = talia.size();
+//		for (int i =0; i<taliaSize; i++){
+//			System.out.print(talia.pop()+", ");
+//			if (i%13 == 12  || i == taliaSize-1) System.out.println();
+//		}
+		return this.uzyteKarty.toString();
 	}
 ///////////////////////////////////////////////////////////////////////////
 	public Karta popTalia() {

@@ -1,5 +1,8 @@
 package gracze;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import karty.Karta;
 import rozgrywka.Gra;
 
@@ -12,20 +15,21 @@ public abstract class Gracz {
 	/**
 	 * Karty, które gracz posiada na rêce
 	 */
-	private Karta[] reka;
+	private List<Karta> reka = new ArrayList<Karta>();
 	/**
 	 * Karty, które wybiera gracz, aby wys³aæ do servera
 	 */
-	private Karta[] wybraneKarty;
+	private List<Karta> wybraneKarty = new ArrayList<Karta>();
 	
-	/**
-	 * @return
-	 */
+	public Gracz() {
+		
+	}
+	
 	public abstract boolean zmienKolor(Class<Karta> kolor); 
 	
 	public abstract boolean zadaj(int wartosc);
 	
-	public abstract boolean wykonajRuch(Karta[] karty);
+	public abstract boolean wykonajRuch(List<Karta> karty);
 	
 	public Gra getGra() {
 		return gra;
@@ -35,20 +39,24 @@ public abstract class Gracz {
 		this.gra = gra;
 	}
 
-	public Karta[] getReka() {
+	public List<Karta> getReka() {
 		return reka;
 	}
 
-	public void setReka(Karta[] reka) {
+	public void setReka(List<Karta> reka) {
 		this.reka = reka;
 	}
 
-	public Karta[] getWybraneKarty() {
+	public List<Karta> getWybraneKarty() {
 		return wybraneKarty;
 	}
 
-	public void setWybraneKarty(Karta[] wybraneKarty) {
+	public void setWybraneKarty(List<Karta> wybraneKarty) {
 		this.wybraneKarty = wybraneKarty;
+	}
+	
+	public void dajKarteDoReki(Karta karta) {
+		this.reka.add(karta);
 	}
 	
 }

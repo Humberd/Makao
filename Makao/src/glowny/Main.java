@@ -1,5 +1,8 @@
 package glowny;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import exceptions.CardException;
 import gracze.Czlowiek;
 import gracze.Gracz;
@@ -25,8 +28,14 @@ public class Main {
 		System.out.println(gra.dodajGraczaDoGry(gracz));
 		System.out.println(gra.dodajGraczaDoGry(gracz2));
 		gra.rozpocznijGre();
-		System.out.println(gracz2.wykonajRuch(new Karta[10]));
-//		System.out.println(gracz2.wykonajRuch(new Karta[10]));
+		
+		System.out.println(gra.talia.printTalia());
+		gra.rozdajKarty();
+		System.out.println(gracz.getReka().toString());
+		System.out.println(gracz2.getReka().toString());
+		System.out.println(gra.talia.printTalia());
+
+		
 	}
 
 }

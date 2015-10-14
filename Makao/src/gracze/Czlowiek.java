@@ -1,8 +1,14 @@
 package gracze;
 
+import java.util.List;
+
 import karty.Karta;
 
 public class Czlowiek extends Gracz{
+	
+	public Czlowiek() {
+		super();
+	}
 
 	@Override
 	public boolean zmienKolor(Class<Karta> kolor) {
@@ -15,7 +21,7 @@ public class Czlowiek extends Gracz{
 	}
 
 	@Override
-	public boolean wykonajRuch(Karta[] karty) {
+	public boolean wykonajRuch(List<Karta> karty) {
 		return this.getGra().wykonajRuch(this, karty);
 	}
 

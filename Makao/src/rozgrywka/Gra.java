@@ -2,6 +2,7 @@ package rozgrywka;
 
 import java.util.List;
 
+import exceptions.ArbiterException;
 import exceptions.CardException;
 import gracze.Czlowiek;
 import gracze.Gracz;
@@ -13,6 +14,7 @@ public class Gra {
 	 * Zmienna przechowuj¹ca maksymaln¹ liczê graczy przy stole
 	 */
 	private int rozmiarStolu = 4;
+	private int wymaganaLiczbaGraczyPrzyStole = 1;
 	/**
 	 * Tablica przechowuj¹ca aktualnych graczy w grze.
 	 */
@@ -124,7 +126,7 @@ public class Gra {
 					this.przekazRuchNastepnemuGraczowi();
 				}
 				//czy jest mniej niz dwoch graczy przy stole, to konczy gre
-				if ((this.rozmiarStolu - this.getWolneMiejscaPrzyStole()) < 2) {
+				if ((this.rozmiarStolu - this.getWolneMiejscaPrzyStole()) < wymaganaLiczbaGraczyPrzyStole) {
 					this.stanGry = false;
 				}
 				return true;
@@ -153,7 +155,7 @@ public class Gra {
 	 */
 	public void rozpocznijGre () {
 		//jeœli jest conajmniej 2 graczy przy stole
-		if ((this.rozmiarStolu - this.getWolneMiejscaPrzyStole()) < 2) {
+		if ((this.rozmiarStolu - this.getWolneMiejscaPrzyStole()) < wymaganaLiczbaGraczyPrzyStole) {
 			System.out.println("Gra nie wystartowala");
 			return;
 		}
@@ -278,10 +280,15 @@ public class Gra {
 	 * @param karty - tablica kart rzuconych przez gracza
 	 * @return true - zaakceptowano ruch
 	 * @return false - odrzucono ruch
+	 * @throws ArbiterException 
 	 */
-	public boolean wykonajRuch(Gracz gracz, List<Karta> karty) {
+	public boolean wykonajRuch(Gracz gracz, List<Karta> karty) throws ArbiterException {
 		//jesli gra sie nie rozpoczela, to to nie pozwalam wykonaæ ruchu
 		if (!this.stanGry) {
+			return false;
+		}
+		//jesli metoda  dosta³a pust¹ listê kart
+		if (karty.isEmpty()) {
 			return false;
 		}
 		//sprawdzam czy gracz jest przy stole
@@ -289,10 +296,19 @@ public class Gra {
 			if (gracze[i] == gracz) {
 				//jesli jest przy stole to sprawdzam, czy jest jego ruch
 				if (i == this.aktualnyRuch) {
-					// TODO wyslanie zapytania do arbitra
-					System.out.println("TO jest jego aktualny ruch");
+					// jesli arbiter powie, ¿e ruch jest dozwolony
+					if (arbiter.czyRuchJestDozwolony(karty)) {
+						// wrzucam karty na stos uzytych kart
+						while (karty.isEmpty() == false) {
+							this.talia.pushUzyteKarty(karty.remove(0));
+						}
+//						this.przekazRuchNastepnemuGraczowi();
+						
+						return true;
+					}
+//					System.out.println("TO jest jego aktualny ruch");
 //					this.przekazRuchNastepnemuGraczowi(); //ARBITER - to musi wyrzucac arbiter
-					return true;
+					return false;
 				} else {
 					//jesli nie jest ruch gracza to nie pozwalam na ruch
 					return false;
@@ -301,7 +317,13 @@ public class Gra {
 		}
 		return false;
 	}
-	
+	/**
+	 * @param gracz - instancja gracza do identyfikacji
+	 * @return zwraca graczowi kartê z talii
+	 */
+	public Karta pobierzKarte(Gracz gracz) {
+		return this.talia.popTalia();
+	}
 	/**
 	 * Rozdaje karty wszystkim graczom przy stole
 	 */
@@ -310,12 +332,13 @@ public class Gra {
 		int liczbaKart = 5;
 		for (int i =0; i<this.rozmiarStolu; i++) {
 			//jezeli miejsce przy stole jest zajete przez gracza
-			if (gracze[i] != null) {
+			if (this.gracze[i] != null) {
 				//rozdaje 5 kart graczowi
 				for (int j = 0; j<liczbaKart; j++) {
-					gracze[i].dajKarteDoReki(this.talia.popTalia());
+					this.gracze[i].dajKarteDoReki(this.talia.popTalia());
 				}
 			}
 		}
+		this.talia.pushUzyteKarty(this.talia.popTalia());
 	}
 }

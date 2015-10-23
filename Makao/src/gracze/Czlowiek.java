@@ -2,6 +2,7 @@ package gracze;
 
 import java.util.List;
 
+import exceptions.ArbiterException;
 import karty.Karta;
 
 public class Czlowiek extends Gracz{
@@ -19,10 +20,19 @@ public class Czlowiek extends Gracz{
 	public boolean zadaj(int wartosc) { // ¿¹daj
 		return this.getGra().zadaj(this, wartosc);
 	}
+	@Override
+	public boolean wykonajRuch() throws ArbiterException {
+		return this.getGra().wykonajRuch(this, this.getWybraneKarty());
+	}
 
 	@Override
-	public boolean wykonajRuch(List<Karta> karty) {
-		return this.getGra().wykonajRuch(this, karty);
+	public boolean pobierzKarte() {
+		Karta karta = this.getGra().pobierzKarte(this);
+		if (karta != null){
+			this.dajKarteDoReki(karta);
+			return true;
+		}
+		return false;
 	}
 
 }

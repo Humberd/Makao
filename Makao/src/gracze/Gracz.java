@@ -3,6 +3,7 @@ package gracze;
 import java.util.ArrayList;
 import java.util.List;
 
+import exceptions.ArbiterException;
 import karty.Karta;
 import rozgrywka.Gra;
 
@@ -29,7 +30,13 @@ public abstract class Gracz {
 	
 	public abstract boolean zadaj(int wartosc);
 	
-	public abstract boolean wykonajRuch(List<Karta> karty);
+	public abstract boolean wykonajRuch() throws ArbiterException;
+	
+	/**
+	 * @return true - pomyœlnie pobrano kartê z talii
+	 * @return false - nie pobrano karty z talii
+	 */
+	public abstract boolean pobierzKarte();
 	
 	public Gra getGra() {
 		return gra;
@@ -57,6 +64,9 @@ public abstract class Gracz {
 	
 	public void dajKarteDoReki(Karta karta) {
 		this.reka.add(karta);
+	}
+	public void pushWybraneKarty(Karta karta) {
+		this.wybraneKarty.add(karta);
 	}
 	
 }

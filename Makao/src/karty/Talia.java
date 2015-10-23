@@ -38,7 +38,7 @@ public class Talia{
 		Collections.shuffle(this.talia, new Random(seed));
 	}
 	/**
-	 * Przeklada karty ze stosu uzytych kart do talii, która bedzie sie grac
+	 * Przeklada karty ze stosu uzytych kart do talii, któr¹ bêdzie siê graæ
 	 */
 	public void przelozUzyteKartyDoTalii() {
 		this.talia.addAll(this.uzyteKarty);
@@ -64,7 +64,9 @@ public class Talia{
 //			System.out.print(talia.pop()+", ");
 //			if (i%13 == 12 || i == taliaSize-1) System.out.println();
 //		}
-		return this.talia.toString();
+		Stack<Karta> tempStos = (Stack<Karta>) this.talia.clone();
+		Collections.reverse(tempStos);
+		return tempStos.toString();
 	}
 	public String printUzyteKarty() {
 //		@SuppressWarnings("unchecked")
@@ -74,7 +76,9 @@ public class Talia{
 //			System.out.print(talia.pop()+", ");
 //			if (i%13 == 12  || i == taliaSize-1) System.out.println();
 //		}
-		return this.uzyteKarty.toString();
+		Stack<Karta> tempStos = (Stack<Karta>) this.uzyteKarty.clone();
+		Collections.reverse(tempStos);
+		return tempStos.toString();
 	}
 ///////////////////////////////////////////////////////////////////////////
 	public Karta popTalia() {

@@ -11,27 +11,27 @@ import rozgrywka.Gra;
 
 public class Lanterna {
 	Screen screen;
+	Gra gra;
+	
 	
 	public Lanterna() {
 		test1();
 	}
 	
 	public Lanterna(Gra gra) {
+		this.gra = gra;
 		this.screen = TerminalFacade.createScreen();
 		this.screen.startScreen();
-		this.ekranPowitalny();
+		
 		ScreenWriter sw = new ScreenWriter(this.screen);
-		Karty karty = new Karty();
-		String[] temp = karty.getKarta("A","Pik");
+		String[] temp = Karty.getKarta("A","Kier");
+		temp = OknoDialogowe.oknoPowitalne();
 		for (int i = 0; i < temp.length; i++) {
 			sw.drawString(5, 2+i, temp[i]);
 		}
 		screen.refresh();
 	}
 	
-	private void ekranPowitalny() {
-		
-	}
 	public void test1() {
 		Screen screen = TerminalFacade.createScreen();
 		screen.startScreen();

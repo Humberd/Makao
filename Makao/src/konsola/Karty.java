@@ -1,24 +1,22 @@
 package konsola;
 
-import javax.swing.text.AbstractDocument.LeafElement;
-
 public class Karty {
-	private final char overScore = '\u00AF'; //"\u0305" - zapasowy w razie czego
-	private String[] karta = {" _______",
-							  "|       |",
-							  "|       |",
-							  "|       |",
-							  "|       |",
-							  "|       |",
-							  " "+overScore+overScore+overScore+overScore+overScore+overScore+overScore};
+	private final static char overScore = '\u00AF'; //"\u0305" - zapasowy w razie czego
+	private final static String[] karta = {" _______",
+										   "|       |",
+							               "|       |",
+							               "|       |",
+							               "|       |",
+							               "|       |",
+							               " "+overScore+overScore+overScore+overScore+overScore+overScore+overScore};
 	
-	private final char kierSymbol = '\u2665';
-	private final char karoSymbol = '\u2666';
-	private final char pikSymbol = '\u2660';
-	private final char treflSymbol = '\u2663';
+	public final static char kierSymbol = '\u2665';
+	public final static char karoSymbol = '\u2666';
+	public final static char pikSymbol = '\u2660';
+	public final static char treflSymbol = '\u2663';
 	
 	
-	public Karty() {
+	private Karty() {
 		
 	}
 
@@ -27,7 +25,7 @@ public class Karty {
 	 * @param kolor - tekstowy kolor, jaki bêdzie wypisany na karcie
 	 * @return string[] - zwraca tablicê stringów, który przedstawia graficzne odwzorowanie karty
 	 */
-	public String[] getKarta(String wartosc, String kolor) {
+	public final static String[] getKarta(String wartosc, String kolor) {
 		//robie klon karty, zeby moc ja odpowiednio edytowac
 		String[] kartaKopia = karta.clone();
 		
@@ -47,11 +45,11 @@ public class Karty {
 		//dodaje symbol koloru przy wartoœci
 		char symbol = '0';
 		switch (kolor) {
-			case "Kier": symbol = this.kierSymbol; break;
-			case "Karo": symbol = this.karoSymbol; break;
-			case "Pik": symbol = this.pikSymbol; break;
-			case "Trefl": symbol = this.treflSymbol; break;
-			default: symbol = this.kierSymbol; break;
+			case "Kier": symbol = kierSymbol; break;
+			case "Karo": symbol = karoSymbol; break;
+			case "Pik": symbol = pikSymbol; break;
+			case "Trefl": symbol = treflSymbol; break;
+			default: symbol = kierSymbol; break;
 		}
 		kartaKopia[2] = karta[2].substring(0, 1) + symbol + karta[2].substring(2);
 		

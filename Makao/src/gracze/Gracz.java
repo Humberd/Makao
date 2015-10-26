@@ -28,6 +28,8 @@ public abstract class Gracz {
 	 */
 	private String nickname;
 	
+	private int ileStojeKolejek = 0;
+	
 	/**
 	 * Karty, które gracz posiada na rêce
 	 */
@@ -94,6 +96,14 @@ public abstract class Gracz {
 
 	public void setIndeksWybranejKartyWRece(int indeksWybranejKartyWRece) {
 		this.indeksWybranejKartyWRece = indeksWybranejKartyWRece;
+	}
+
+	public int getIleStojeKolejek() {
+		return ileStojeKolejek;
+	}
+
+	public void setIleStojeKolejek(int ileStojeKolejek) {
+		this.ileStojeKolejek = ileStojeKolejek;
 	}
 	
 }

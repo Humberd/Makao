@@ -59,6 +59,8 @@ public class Gra {
 	
 	private int ileKartDoPobrania = 0;
 	
+	private int ileKolejekTrzebaStac = 0;
+	
 	public Gra() throws CardException {
 		this.talia = new Talia();
 	}
@@ -140,7 +142,7 @@ public class Gra {
 	/**
 	 * Metoda przekazuj¹ca ruch nastêpnemu graczowi. Jeœli nie ma graczy przy stole ustala wartosæ this.aktualnyRuch na 0
 	 */
-	private void przekazRuchNastepnemuGraczowi() {
+	public void przekazRuchNastepnemuGraczowi() {
 		this.czyMozeZadac = false;
 		this.czyMozeZmienicKolor = false;
 		if (this.rozmiarStolu == this.getWolneMiejscaPrzyStole()) {
@@ -167,6 +169,14 @@ public class Gra {
 		this.stanGry = true;
 		System.out.println("Gra wystartowala");
 	}
+	public int getIleKolejekTrzebaStac() {
+		return ileKolejekTrzebaStac;
+	}
+
+	public void setIleKolejekTrzebaStac(int ileKolejekTrzebaStac) {
+		this.ileKolejekTrzebaStac = ileKolejekTrzebaStac;
+	}
+
 	public Talia getTalia() {
 		return talia;
 	}
@@ -211,7 +221,7 @@ public class Gra {
 		this.zmianaKoloru = zmianaKoloru;
 	}
 	
-	public boolean isCzyMozeZadac() {
+	public boolean getCzyMozeZadac() {
 		return czyMozeZadac;
 	}
 
@@ -219,7 +229,7 @@ public class Gra {
 		this.czyMozeZadac = czyMozeZadac;
 	}
 
-	public boolean isCzyMozeZmienicKolor() {
+	public boolean getCzyMozeZmienicKolor() {
 		return czyMozeZmienicKolor;
 	}
 

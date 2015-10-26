@@ -2,27 +2,16 @@ package konsola;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Arrays;
-import java.util.Iterator;
 
 import javax.swing.WindowConstants;
 
 import com.googlecode.lanterna.TerminalFacade;
-import com.googlecode.lanterna.gui.GUIScreen;
-import com.googlecode.lanterna.gui.Window;
-import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.ScreenCharacterStyle;
 import com.googlecode.lanterna.screen.ScreenWriter;
-import com.googlecode.lanterna.terminal.Terminal;
-import com.googlecode.lanterna.terminal.Terminal.ResizeListener;
-import com.googlecode.lanterna.terminal.TerminalSize;
 import com.googlecode.lanterna.terminal.swing.SwingTerminal;
 
 import exceptions.ArbiterException;
-import exceptions.CardException;
 import karty.Karta;
-import karty.Pik;
 import rozgrywka.Gra;
 
 public class Lanterna {
@@ -248,15 +237,59 @@ public class Lanterna {
 								switch (OknoDialogowe.getZaznaczonyGuzikWAktualnymOknie()) {
 									//BIORÊ
 									case 0: 
-										
+										if (czyGraczRzucilCoNajmniejJednaKarte == false && czyGraczRzucilWszystkieKarty == false) {
+											if (gra.getIleKartDoPobrania() != 0) {
+												for (int i = 0; i < gra.getIleKartDoPobrania(); i++) {
+													gracz.pobierzKarte();
+												}
+												gra.setIleKartDoPobrania(0);
+											} else {
+												gracz.pobierzKarte();
+											}
+											
+											czyGraczRzucilWszystkieKarty = true;
+											czyJestFocusNaOknoDialogowe = false;
+											czyJestFocusNaSwojeKarty = true;
+											czyJestOknoDialogowe = false;
+											odswiezKartyGracza();
+											odswiezOknoDialogowe();
+											gra.przekazRuchNastepnemuGraczowi();
+										}
 										break;
 									//REZYGNUJÊ
 									case 1:
-										
+										if (czyGraczRzucilCoNajmniejJednaKarte == true) {
+											czyGraczRzucilWszystkieKarty = true;
+											czyJestFocusNaOknoDialogowe = false;
+											czyJestFocusNaSwojeKarty = true;
+											czyJestOknoDialogowe = false;
+										}
+										if (gra.getCzyMozeZadac()) {
+											OknoDialogowe.zadaj();
+											czyJestFocusNaOknoDialogowe = true;
+											czyJestFocusNaSwojeKarty = false;
+											czyJestOknoDialogowe = true;
+											gra.przekazRuchNastepnemuGraczowi();
+										} else if (gra.getCzyMozeZmienicKolor()) {
+											OknoDialogowe.wybierzKolor();
+											czyJestFocusNaOknoDialogowe = true;
+											czyJestFocusNaSwojeKarty = false;
+											czyJestOknoDialogowe = true;
+											gra.przekazRuchNastepnemuGraczowi();
+										}
+										odswiezOknoDialogowe();
 										break;
 									//TRACÊ
 									case 2:
-										
+										if (gra.getIleKolejekTrzebaStac() > 0) {
+											gracz.setIleStojeKolejek(gra.getIleKolejekTrzebaStac());
+											gra.setIleKolejekTrzebaStac(0);
+											czyGraczRzucilWszystkieKarty = true;
+											czyJestFocusNaOknoDialogowe = false;
+											czyJestFocusNaSwojeKarty = true;
+											czyJestOknoDialogowe = false;
+											odswiezOknoDialogowe();
+										}
 										break;
 									default:
 								}
@@ -264,25 +297,28 @@ public class Lanterna {
 						}
 						//jesli gracz focusuje swoje karty
 						else if (czyJestFocusNaSwojeKarty == true){
-							System.out.println(gracz.getIndeksWybranejKartyWRece());
-							boolean czyZaakceptowano = false;
-							try {
-								czyZaakceptowano =  gracz.rzucKarte();
-							} catch (ArbiterException e1) {
-								System.out.println("Jakis blad przy rzuceniu karty");
-							}
-							if (czyZaakceptowano == true) {
-								//tutaj co robie jesli zaakcpetowano ruch
-								if (gracz.getReka().size() == 0) {
-									koniecGry();
-									gra.setStanGry(false);
-									//CO MA ROBIC PO KONCU GRY
-								} else {
-									gracz.setIndeksWybranejKartyWRece((gracz.getIndeksWybranejKartyWRece() == gracz.getReka().size())?(gracz.getIndeksWybranejKartyWRece()-1):(gracz.getIndeksWybranejKartyWRece()));
-									odswiezKartyGracza();
+							if (czyGraczRzucilWszystkieKarty == false) {
+								boolean czyZaakceptowano = false;
+								try {
+									czyZaakceptowano =  gracz.rzucKarte();
+								} catch (ArbiterException e1) {
+									System.out.println("Jakis blad przy rzuceniu karty");
 								}
-							} else {
-								System.out.println("wtf");
+								if (czyZaakceptowano == true) {
+									//tutaj co robie jesli zaakcpetowano ruch
+									czyGraczRzucilCoNajmniejJednaKarte = true;
+									odswiezStosKart();
+									if (gracz.getReka().size() == 0) {
+										koniecGry();
+										gra.setStanGry(false);
+										//CO MA ROBIC PO KONCU GRY
+									} else {
+										gracz.setIndeksWybranejKartyWRece((gracz.getIndeksWybranejKartyWRece() == gracz.getReka().size())?(gracz.getIndeksWybranejKartyWRece()-1):(gracz.getIndeksWybranejKartyWRece()));
+										odswiezKartyGracza();
+									}
+								} else {
+									System.out.println("wtf");
+								}
 							}
 						}
 						break;
@@ -529,7 +565,7 @@ public class Lanterna {
 	}
 	
 	public void odswiezOknoDialogowe() {
-		String napis = "                                        ";
+		String napis = "                                          ";
 		int wysokoscOknaDialogowego = 8;
 		int szerokoscOknaDialogowego = 42;
 		for (int i = 0; i < wysokoscOknaDialogowego; i++) {
@@ -542,12 +578,12 @@ public class Lanterna {
 				sw.drawString(WIDTH/2 - szerokoscOknaDialogowego/2, HEIGHT/2 +i, aktualneOkno[i]);
 			}	
 			czyJestOknoDialogowe = true;
-		} else if (gra.isCzyMozeZadac() == true) {
+		} else if (gra.getCzyMozeZadac() == true) {
 			for (int i = 0; i < wysokoscOknaDialogowego; i++) {
 				sw.drawString(WIDTH/2 - szerokoscOknaDialogowego/2, HEIGHT/2 +i, aktualneOkno[i]);
 			}	
 			czyJestOknoDialogowe = true;
-		} else if (gra.isCzyMozeZmienicKolor() == true) {
+		} else if (gra.getCzyMozeZmienicKolor() == true) {
 			for (int i = 0; i < wysokoscOknaDialogowego; i++) {
 				sw.drawString(WIDTH/2 - szerokoscOknaDialogowego/2, HEIGHT/2 +i, aktualneOkno[i]);
 			}
@@ -564,6 +600,42 @@ public class Lanterna {
 	
 	public void koniecGry() {
 		
+	}
+	
+	public void kolejGracza() {
+		czyGraczRzucilWszystkieKarty = false;
+		czyGraczRzucilCoNajmniejJednaKarte = false;
+		czyJestFocusNaOknoDialogowe = false;
+		czyJestFocusNaSwojeKarty = true;
+		czyJestOknoDialogowe = true;
+		OknoDialogowe.akcja();
+		odswiezOknoDialogowe();
+		odswiezKartyGracza();
+		odswiezStosKart();
+		odswiezKartyPrzeciwnikow();
+		odswiezStanRuchu();
+		odswiezCzyjRuch();
+	}
+	
+	public void koniecRuchuGracza() {
+		int indexGracza = 0;
+		for (int i = 0; i < gra.getGracze().length; i++) {
+			if (gra.getGracze()[i] == gracz) {
+				indexGracza = i;
+				break;
+			}
+		}
+		while (gra.getAktualnyRuch() != indexGracza) {
+			try {
+				Thread.sleep(1000);
+				odswiezKartyPrzeciwnikow();
+				odswiezStanRuchu();
+				odswiezStosKart();
+			} catch (InterruptedException e) {
+				System.out.println("Jakis blad w spaniu");
+			}
+		}
+		kolejGracza();
 	}
 //	public String generujPustyString() {
 //		

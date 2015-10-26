@@ -14,7 +14,7 @@ public class Gra {
 	 * Zmienna przechowuj¹ca maksymaln¹ liczê graczy przy stole
 	 */
 	private int rozmiarStolu = 4;
-	private int wymaganaLiczbaGraczyPrzyStole = 1;
+	private int wymaganaLiczbaGraczyPrzyStole = 2;
 	/**
 	 * Tablica przechowuj¹ca aktualnych graczy w grze.
 	 */
@@ -22,7 +22,7 @@ public class Gra {
 	/**
 	 * Talia sk³adaj¹ca siê z 52 kart, którymi bêdzie grana gra.
 	 */
-	public Talia talia;
+	private Talia talia;
 	/**
 	 * Arbiter gry, który zna zasady rozgrywki
 	 */
@@ -39,7 +39,7 @@ public class Gra {
 	/**
 	 * Zmienna przechowujaca ¿¹dan¹ wartoœæ, jesli jest 0, tzn, ¿e nikt nic nie ¿¹da
 	 */
-	private int zadanie = 0;
+	private int zadanie = 0; //0
 	/**
 	 * Zmienna zawieraj¹ca liczbê osób, aby sprawdziæ, czy minê³a kolejka ¿¹dania
 	 */
@@ -47,15 +47,17 @@ public class Gra {
 	/**
 	 * Zmienna przechowujaca ¿¹dany kolor, jesli jest null, tzn, ¿e nikt nic nie ¿¹da
 	 */
-	private Class<Karta> zmianaKoloru = null;
+	private String zmianaKoloru = null;
 	/**
 	 * Czy gracz, który ma aktualnie kolejkê mo¿e ¿¹daæ kartê
 	 */
-	private boolean czyMozeZadac = false;
+	private boolean czyMozeZadac = false; //false
 	/**
 	 * Czy gracz, który ma aktualnie kolejkê mo¿e zmieniæ kolor
 	 */
-	private boolean czyMozeZmienicKolor = false;
+	private boolean czyMozeZmienicKolor = false; //false
+	
+	private int ileKartDoPobrania = 0;
 	
 	public Gra() throws CardException {
 		this.talia = new Talia();
@@ -165,6 +167,10 @@ public class Gra {
 		this.stanGry = true;
 		System.out.println("Gra wystartowala");
 	}
+	public Talia getTalia() {
+		return talia;
+	}
+
 	public Gracz[] getGracze() {
 		return gracze;
 	}
@@ -173,6 +179,10 @@ public class Gra {
 		return this.stanGry;
 	}
 	
+	public void setStanGry(boolean stanGry) {
+		this.stanGry = stanGry;
+	}
+
 	public int getAktualnyRuch() {
 		return this.aktualnyRuch;
 	}
@@ -193,11 +203,11 @@ public class Gra {
 		this.zadanieKolejka = zadanieKolejka;
 	}
 
-	public Class<Karta> getZmianaKoloru() {
+	public String getZmianaKoloru() {
 		return zmianaKoloru;
 	}
 
-	public void setZmianaKoloru(Class<Karta> zmianaKoloru) {
+	public void setZmianaKoloru(String zmianaKoloru) {
 		this.zmianaKoloru = zmianaKoloru;
 	}
 	
@@ -223,7 +233,7 @@ public class Gra {
 	 * @return true - poprawnie zmieniono kolor
 	 * @return false - nie mozna zmienic koloru
 	 */
-	public boolean zmienKolor(Gracz gracz, Class<Karta> kolor) {
+	public boolean zmienKolor(Gracz gracz, String kolor) {
 		//jesli gra sie nie rozpoczela, to to nie pozwalam wykonaæ ruchu
 		if (!this.stanGry) {
 			return false;
@@ -286,13 +296,13 @@ public class Gra {
 	 * @return false - odrzucono ruch
 	 * @throws ArbiterException 
 	 */
-	public boolean wykonajRuch(Gracz gracz, List<Karta> karty) throws ArbiterException {
+	public boolean rzucKarte(Gracz gracz, Karta karta) throws ArbiterException {
 		//jesli gra sie nie rozpoczela, to to nie pozwalam wykonaæ ruchu
 		if (!this.stanGry) {
 			return false;
 		}
 		//jesli metoda  dosta³a pust¹ listê kart
-		if (karty.isEmpty()) {
+		if (karta == null) {
 			return false;
 		}
 		//sprawdzam czy gracz jest przy stole
@@ -301,19 +311,25 @@ public class Gra {
 				//jesli jest przy stole to sprawdzam, czy jest jego ruch
 				if (i == this.aktualnyRuch) {
 					// jesli arbiter powie, ¿e ruch jest dozwolony
-					if (arbiter.czyRuchJestDozwolony(karty)) {
-						// wrzucam karty na stos uzytych kart
-						while (karty.isEmpty() == false) {
-							this.talia.pushUzyteKarty(karty.remove(0));
-						}
-//						this.przekazRuchNastepnemuGraczowi();
+					if (arbiter.czyRuchJestDozwolony(karta)) {
 						
+						// wrzucam karte na stos uzytych kart
+						this.talia.pushUzyteKarty(gracze[i].getReka().remove(gracze[i].getIndeksWybranejKartyWRece()));					
+						//jesli ta karta byla J(Jopkiem, Waletem)
+						if (karta.getZnak().equals("J")) {
+							czyMozeZadac = true;
+						} 
+						//albo byla A(Asem)
+						else if (karta.getZnak().equals("A")) {
+							czyMozeZmienicKolor = true;
+						}
 						return true;
 					}
 //					System.out.println("TO jest jego aktualny ruch");
 //					this.przekazRuchNastepnemuGraczowi(); //ARBITER - to musi wyrzucac arbiter
 					return false;
 				} else {
+					System.out.println("Nie twoj ruch");
 					//jesli nie jest ruch gracza to nie pozwalam na ruch
 					return false;
 				}
@@ -344,5 +360,13 @@ public class Gra {
 			}
 		}
 		this.talia.pushUzyteKarty(this.talia.popTalia());
+	}
+
+	public int getIleKartDoPobrania() {
+		return ileKartDoPobrania;
+	}
+
+	public void setIleKartDoPobrania(int ileKartDoPobrania) {
+		this.ileKartDoPobrania = ileKartDoPobrania;
 	}
 }

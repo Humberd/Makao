@@ -23,7 +23,7 @@ public abstract class Karta {
 	/**
 	 * Napis zawieraj¹cy tekstow¹ reprezentacjê koloru: Pik, Trefl, Karo, Kier.
 	 */
-	private final String kolor;
+	private String kolor;
 	
 	//obrazek
 	

@@ -52,9 +52,13 @@ public class Main {
 //		}
 		Gra gra = new Gra();
 		Gracz sawik = new Czlowiek("Humberd");
-		Gracz bot = new Czlowiek();
+		Gracz bot = new Czlowiek("ALAMAKOTALOOLZALADZIHUE");
+		Gracz bot2 = new Czlowiek();
+		Gracz bot3 = new Czlowiek("TESTOWEIMIE123456789");
 		gra.dodajGraczaDoGry(sawik);
 		gra.dodajGraczaDoGry(bot);
+		gra.dodajGraczaDoGry(bot2);
+		gra.dodajGraczaDoGry(bot3);
 		gra.rozpocznijGre();
 		gra.rozdajKarty();
 		Lanterna lanterna = new Lanterna(gra,sawik);

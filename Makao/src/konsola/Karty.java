@@ -10,6 +10,14 @@ public class Karty {
 							               "|       |",
 							               " "+overScore+overScore+overScore+overScore+overScore+overScore+overScore};
 	
+	private final static String[] kartaRewers = {" _______",
+												 "|*     *|",
+												 "| * * * |",
+												 "| *   * |",
+												 "| * * * |",
+												 "|*     *|",
+												 " "+overScore+overScore+overScore+overScore+overScore+overScore+overScore};
+
 	public final static char kierSymbol = '\u2665';
 	public final static char karoSymbol = '\u2666';
 	public final static char pikSymbol = '\u2660';
@@ -61,7 +69,11 @@ public class Karty {
 		return kartaKopia;
 	}
 	
-	public String[] getKarta() {
+	public static String[] getKarta() {
 		return karta;
+	}
+
+	public static String[] getKartarewers() {
+		return kartaRewers;
 	}
 }

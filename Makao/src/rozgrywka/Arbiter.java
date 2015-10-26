@@ -34,18 +34,13 @@ public class Arbiter {
 	 * @return false - ruch jest nie dozwolony
 	 * @throws ArbiterException 
 	 */
-	public boolean czyRuchJestDozwolony(List<Karta> karty) throws ArbiterException {
+	public boolean czyRuchJestDozwolony(Karta karta) {
 		//jesli arbiter nie dosta³ ¿adnej karty do sprawdzenia
-		if (karty.isEmpty()) throw new ArbiterException(0);
+		if (karta == null) return false;
 		
 		//pobieram z talii kart z gry ostatni¹ kartê na kupce u¿ytych kart
-		kartaBazowa = gra.talia.peekUzyteKarty();
+		kartaBazowa = gra.getTalia().peekUzyteKarty();
 		
-		if (karty.get(0).getWartosc() == this.kartaBazowa.getWartosc() || karty.get(0).getClass() == this.kartaBazowa.getClass()) {
-			return true;
-		} else {
-			return false;
-//			throw new ArbiterException(2);
-		}
+		return true;
 	}
 }

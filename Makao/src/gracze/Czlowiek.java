@@ -16,7 +16,7 @@ public class Czlowiek extends Gracz{
 	}
 
 	@Override
-	public boolean zmienKolor(Class<Karta> kolor) {
+	public boolean zmienKolor(String kolor) {
 		return this.getGra().zmienKolor(this, kolor);
 	}
 
@@ -25,8 +25,8 @@ public class Czlowiek extends Gracz{
 		return this.getGra().zadaj(this, wartosc);
 	}
 	@Override
-	public boolean wykonajRuch() throws ArbiterException {
-		return this.getGra().wykonajRuch(this, this.getWybraneKarty());
+	public boolean rzucKarte() throws ArbiterException {
+		return this.getGra().rzucKarte(this, this.getReka().get(this.getIndeksWybranejKartyWRece()));
 	}
 
 	@Override

@@ -35,12 +35,12 @@ public abstract class Gracz {
 	/**
 	 * Karty, które wybiera gracz, aby wys³aæ do servera
 	 */
-	private List<Karta> wybraneKarty = new ArrayList<Karta>();
-	private Karta wybranaKarta;
+//	private List<Karta> wybraneKarty = new ArrayList<Karta>();
+	private int indeksWybranejKartyWRece = -1;
 	
 	public Gracz() {
 		numerGracza = licznikGraczy++;
-		setNickname("DefaultName#"+numerGracza);
+		setNickname("Name#"+numerGracza);
 	}
 	
 	public Gracz(String nickname) {
@@ -48,11 +48,11 @@ public abstract class Gracz {
 		setNickname(nickname);
 	}
 	
-	public abstract boolean zmienKolor(Class<Karta> kolor); 
+	public abstract boolean zmienKolor(String kolor); 
 	
 	public abstract boolean zadaj(int wartosc);
 	
-	public abstract boolean wykonajRuch() throws ArbiterException;
+	public abstract boolean rzucKarte() throws ArbiterException;
 	
 	/**
 	 * @return true - pomyœlnie pobrano kartê z talii
@@ -75,28 +75,9 @@ public abstract class Gracz {
 	public void setReka(List<Karta> reka) {
 		this.reka = reka;
 	}
-
-	public List<Karta> getWybraneKarty() {
-		return wybraneKarty;
-	}
-
-	public void setWybraneKarty(List<Karta> wybraneKarty) {
-		this.wybraneKarty = wybraneKarty;
-	}
 	
 	public void dajKarteDoReki(Karta karta) {
 		this.reka.add(karta);
-	}
-	public void pushWybraneKarty(Karta karta) {
-		this.wybraneKarty.add(karta);
-	}
-
-	public Karta getWybranaKarta() {
-		return wybranaKarta;
-	}
-
-	public void setWybranaKarta(Karta wybranaKarta) {
-		this.wybranaKarta = wybranaKarta;
 	}
 
 	public String getNickname() {
@@ -105,6 +86,14 @@ public abstract class Gracz {
 
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
+	}
+
+	public int getIndeksWybranejKartyWRece() {
+		return indeksWybranejKartyWRece;
+	}
+
+	public void setIndeksWybranejKartyWRece(int indeksWybranejKartyWRece) {
+		this.indeksWybranejKartyWRece = indeksWybranejKartyWRece;
 	}
 	
 }

@@ -57,16 +57,23 @@ public class OknoDialogowe {
 	 */
 	private static int zaznaczonyGuzikWAktualnymOknie = -1;
 
+	/**
+	 * 0-okno powitalne
+	 * 1-¿¹daj
+	 * 2-wybierz kolor
+	 * 3-akcja
+	 */
+	private static int idOknaDialogowego = -1;
+	
 	private OknoDialogowe() {
 
 	}
-
 	/**
 	 * @param numerGuzikaDoPodswietlenia - numer guzika, który ma podœwietliæ
 	 * @return String[] - zwraca tekstow¹ reprezentacjê okienka informacyjnego
 	 */
-
 	public static final String[] oknoPowitalne() {
+		idOknaDialogowego = 0;
 		// tworze kopie okna, do którego bêdê wrzucaæ napis
 		aktualneOkno = okno.clone();
 		//czyszcze zaznaczenie, jesli wywoluje okno
@@ -79,6 +86,7 @@ public class OknoDialogowe {
 	}
 	
 	public static final String[] wybierzKolor() {
+		idOknaDialogowego = 1;
 		aktualneOkno = okno.clone();
 		zaznaczonyGuzikWAktualnymOknie = -1;
 		dodajWiadomosc(new ArrayList<String>(predefiniowaneOkna.keySet()).get(1));
@@ -87,6 +95,7 @@ public class OknoDialogowe {
 	}
 	
 	public static final String[] zadaj() {
+		idOknaDialogowego = 2;
 		aktualneOkno = okno.clone();
 		zaznaczonyGuzikWAktualnymOknie = -1;
 		dodajWiadomosc(new ArrayList<String>(predefiniowaneOkna.keySet()).get(2));
@@ -95,6 +104,7 @@ public class OknoDialogowe {
 	}
 	
 	public static final String[] akcja() {
+		idOknaDialogowego = 3;
 		aktualneOkno = okno.clone();
 		zaznaczonyGuzikWAktualnymOknie = -1;
 		dodajWiadomosc(new ArrayList<String>(predefiniowaneOkna.keySet()).get(3));
@@ -171,7 +181,6 @@ public class OknoDialogowe {
 			zaznaczonyGuzikWAktualnymOknie = -1;
 			return aktualneOkno;
 		}
-		
 		aktualneOkno[6] = okno[6].substring(0,pozycjaGuzikowWAktualnymOknie[numerGuzika][0]);
 		
 		for (int i=0; i< pozycjaGuzikowWAktualnymOknie[numerGuzika][1]; i++) {
@@ -193,5 +202,11 @@ public class OknoDialogowe {
 
 	public static int getZaznaczonyGuzikWAktualnymOknie() {
 		return zaznaczonyGuzikWAktualnymOknie;
+	}
+	public static int getIdOknaDialogowego() {
+		return idOknaDialogowego;
+	}
+	public static void setIdOknaDialogowego(int idOknaDialogowego) {
+		OknoDialogowe.idOknaDialogowego = idOknaDialogowego;
 	}
 }

@@ -51,11 +51,13 @@ public class Main {
 //
 //		}
 		Gra gra = new Gra();
-		Gracz sawik = new Czlowiek();
+		Gracz sawik = new Czlowiek("Humberd");
+		Gracz bot = new Czlowiek();
 		gra.dodajGraczaDoGry(sawik);
+		gra.dodajGraczaDoGry(bot);
 		gra.rozpocznijGre();
 		gra.rozdajKarty();
-		Lanterna lanterna = new Lanterna(gra);
+		Lanterna lanterna = new Lanterna(gra,sawik);
 	}
 
 }

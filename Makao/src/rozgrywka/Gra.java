@@ -165,6 +165,10 @@ public class Gra {
 		this.stanGry = true;
 		System.out.println("Gra wystartowala");
 	}
+	public Gracz[] getGracze() {
+		return gracze;
+	}
+
 	public boolean getStanGry() {
 		return this.stanGry;
 	}

@@ -32,7 +32,7 @@ public class Karty {
 		//dodaje wartosc karty w lewym gornym rogu
 		kartaKopia[1] = karta[1].substring(0, 1) + wartosc;
 		
-		if (wartosc == "10") {
+		if (wartosc.equals("10")) {
 			kartaKopia[1]+= karta[1].substring(3);
 			//dodaje wartosc karty w prawym dolnym rogu
 			kartaKopia[karta.length-2] = karta[karta.length-2].substring(0, karta[karta.length-2].length()-3);
@@ -59,5 +59,9 @@ public class Karty {
 		//dodaje symbol koloru w prawym dolnym rogu
 		kartaKopia[karta.length-3] = karta[karta.length-3].substring(0, karta[karta.length-3].length()-2) + symbol +karta[karta.length-3].substring(karta[karta.length-3].length()-1);
 		return kartaKopia;
+	}
+	
+	public String[] getKarta() {
+		return karta;
 	}
 }

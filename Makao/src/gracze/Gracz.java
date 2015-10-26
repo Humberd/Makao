@@ -14,6 +14,21 @@ public abstract class Gracz {
 	private Gra gra;
 	
 	/**
+	 * Zlicza ile instancji graczy sie juz pojawilo
+	 */
+	private static int licznikGraczy=0;
+	
+	/**
+	 * Numer gracza, zeby moc wpisac go w domyslny nick
+	 */
+	private int numerGracza;
+	
+	/**
+	 * Nick gracza
+	 */
+	private String nickname;
+	
+	/**
 	 * Karty, które gracz posiada na rêce
 	 */
 	private List<Karta> reka = new ArrayList<Karta>();
@@ -21,9 +36,16 @@ public abstract class Gracz {
 	 * Karty, które wybiera gracz, aby wys³aæ do servera
 	 */
 	private List<Karta> wybraneKarty = new ArrayList<Karta>();
+	private Karta wybranaKarta;
 	
 	public Gracz() {
-		
+		numerGracza = licznikGraczy++;
+		setNickname("DefaultName#"+numerGracza);
+	}
+	
+	public Gracz(String nickname) {
+		numerGracza = licznikGraczy++;
+		setNickname(nickname);
 	}
 	
 	public abstract boolean zmienKolor(Class<Karta> kolor); 
@@ -67,6 +89,22 @@ public abstract class Gracz {
 	}
 	public void pushWybraneKarty(Karta karta) {
 		this.wybraneKarty.add(karta);
+	}
+
+	public Karta getWybranaKarta() {
+		return wybranaKarta;
+	}
+
+	public void setWybranaKarta(Karta wybranaKarta) {
+		this.wybranaKarta = wybranaKarta;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 	
 }

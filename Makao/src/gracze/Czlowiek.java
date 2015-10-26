@@ -10,6 +10,10 @@ public class Czlowiek extends Gracz{
 	public Czlowiek() {
 		super();
 	}
+	
+	public Czlowiek(String nickname) {
+		super(nickname);
+	}
 
 	@Override
 	public boolean zmienKolor(Class<Karta> kolor) {

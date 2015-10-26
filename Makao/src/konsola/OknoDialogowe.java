@@ -45,6 +45,11 @@ public class OknoDialogowe {
 	 * guzikami
 	 */
 	private static String[] aktualneOkno;
+	
+	/**
+	 * Zmienna zawiera na pierwszej pozycji w ktorym miejscu znajduje sie guzik w oknie, a na drugim dlugosc tego guzika
+	 */
+	private static int[][] pozycjaGuzikowWAktualnymOknie;
 	/**
 	 * Przechowuje numer zaznaczonego guzik
 	 * -1 oznacza, ¿e nie nie jest zaznaczone
@@ -68,7 +73,31 @@ public class OknoDialogowe {
 		zaznaczonyGuzikWAktualnymOknie = -1;
 		//nie mo¿na pobraæ pary kluczy tylko po indeksie z LinkedHashMap, dlatego trzeba zrobiæ 
 		//listê ArrayList, z której mo¿na wzi¹æ szukany string, b¹dŸ tablicê stringów, po indeksie
+		dodajWiadomosc(new ArrayList<String>(predefiniowaneOkna.keySet()).get(0));
+		dodajGuziki(new ArrayList<String[]>(predefiniowaneOkna.values()).get(0));
+		return aktualneOkno;
+	}
+	
+	public static final String[] wybierzKolor() {
+		aktualneOkno = okno.clone();
+		zaznaczonyGuzikWAktualnymOknie = -1;
 		dodajWiadomosc(new ArrayList<String>(predefiniowaneOkna.keySet()).get(1));
+		dodajGuziki(new ArrayList<String[]>(predefiniowaneOkna.values()).get(1));
+		return aktualneOkno;
+	}
+	
+	public static final String[] zadaj() {
+		aktualneOkno = okno.clone();
+		zaznaczonyGuzikWAktualnymOknie = -1;
+		dodajWiadomosc(new ArrayList<String>(predefiniowaneOkna.keySet()).get(2));
+		dodajGuziki(new ArrayList<String[]>(predefiniowaneOkna.values()).get(2));
+		return aktualneOkno;
+	}
+	
+	public static final String[] akcja() {
+		aktualneOkno = okno.clone();
+		zaznaczonyGuzikWAktualnymOknie = -1;
+		dodajWiadomosc(new ArrayList<String>(predefiniowaneOkna.keySet()).get(3));
 		dodajGuziki(new ArrayList<String[]>(predefiniowaneOkna.values()).get(3));
 		return aktualneOkno;
 	}
@@ -89,6 +118,7 @@ public class OknoDialogowe {
 	}
 
 	private static final void dodajGuziki(String[] guziki) {
+		pozycjaGuzikowWAktualnymOknie = new int[guziki.length][2];
 		//liczê sobie jak d³ugi ma byæ napis, ¿eby móc ³adnie dopasowaæ guziki do okna
 		int liczbaZnakow = 0;
 		
@@ -101,28 +131,67 @@ public class OknoDialogowe {
 		double dlugoscSpacjiDouble = (double)(dlugoscStringa-liczbaZnakow)/(double)(liczbaGuzikow+1);
 		//parsuje wynik na inta
 		int dlugoscSpacjiInt = (int) dlugoscSpacjiDouble;
-		System.out.println(dlugoscSpacjiDouble);
-		System.out.println(dlugoscSpacjiInt);
+//		System.out.println(dlugoscSpacjiDouble);
+//		System.out.println(dlugoscSpacjiInt);
 		//obliczbam liczbe po przecinku spacjiDouble, aby wiedziec w ilu miejscach wstawic o 1 wiecej znak spacji
 		double roznicaSpacjiDoubleInt = dlugoscSpacjiDouble-dlugoscSpacjiInt;
-		System.out.println(roznicaSpacjiDoubleInt);
+//		System.out.println(roznicaSpacjiDoubleInt);
 		//licze w ilu miejscach mam wstawic o 1 wiecej spacji
 		int wIluMiejscachWstawicWiecejSpacji = (int) (roznicaSpacjiDoubleInt*(liczbaGuzikow+1));
-		System.out.println(wIluMiejscachWstawicWiecejSpacji);
+//		System.out.println(wIluMiejscachWstawicWiecejSpacji);
 		aktualneOkno[5] = okno[5].substring(0, (wIluMiejscachWstawicWiecejSpacji>0)?dlugoscSpacjiInt+2:(dlugoscSpacjiInt+1))+guziki[0];
+		pozycjaGuzikowWAktualnymOknie[0][0] = (wIluMiejscachWstawicWiecejSpacji>0)?dlugoscSpacjiInt+2:(dlugoscSpacjiInt+1);
+		pozycjaGuzikowWAktualnymOknie[0][1] = guziki[0].length();
 		int sumaDlugosciNapisowDodanychGuzikow = guziki[0].length();
 		for (int i = 1; i < guziki.length; i++) {
 //			System.out.println();
 			aktualneOkno[5] += okno[5].substring((wIluMiejscachWstawicWiecejSpacji*1)+(i*dlugoscSpacjiInt)+(sumaDlugosciNapisowDodanychGuzikow)
 												,(wIluMiejscachWstawicWiecejSpacji>i)?(wIluMiejscachWstawicWiecejSpacji*1)+(i*dlugoscSpacjiInt)+(sumaDlugosciNapisowDodanychGuzikow)+(dlugoscSpacjiInt+1):(wIluMiejscachWstawicWiecejSpacji*1)+(i*dlugoscSpacjiInt)+(sumaDlugosciNapisowDodanychGuzikow)+(dlugoscSpacjiInt))
 							+guziki[i];
+			pozycjaGuzikowWAktualnymOknie[i][0] = (wIluMiejscachWstawicWiecejSpacji>i)?(wIluMiejscachWstawicWiecejSpacji*1)+(i*dlugoscSpacjiInt)+(sumaDlugosciNapisowDodanychGuzikow)+(dlugoscSpacjiInt+1):(wIluMiejscachWstawicWiecejSpacji*1)+(i*dlugoscSpacjiInt)+(sumaDlugosciNapisowDodanychGuzikow)+(dlugoscSpacjiInt)+1;
+			pozycjaGuzikowWAktualnymOknie[i][1] = guziki[i].length();
 			sumaDlugosciNapisowDodanychGuzikow+=guziki[i].length();
 		}
 		aktualneOkno[5] += okno[5].substring((wIluMiejscachWstawicWiecejSpacji*1)+(liczbaGuzikow*dlugoscSpacjiInt)+(sumaDlugosciNapisowDodanychGuzikow)+1);
-
+	}
+	
+	/**
+	 * Metoda ta graficznie(tekstowo) zaznacza dany guzik
+	 * @param numerGuzika - numer guzika do zaznaczenia w danym oknie dialogowym
+	 * @return
+	 */
+	public static final String[] zaznaczGuzik(int numerGuzika) {
+		//jesli numer guzika jest wiekszy, niz ich faktycznie jest guzikow
+		if (numerGuzika >= pozycjaGuzikowWAktualnymOknie.length) {
+			return aktualneOkno;
+		} 
+		//jesli numer guzika jest -1, to oznacza, ze nie ma zadnego zaznaczenia
+		else if (numerGuzika == -1) {
+			aktualneOkno[6] = okno[6];
+			zaznaczonyGuzikWAktualnymOknie = -1;
+			return aktualneOkno;
+		}
+		
+		aktualneOkno[6] = okno[6].substring(0,pozycjaGuzikowWAktualnymOknie[numerGuzika][0]);
+		
+		for (int i=0; i< pozycjaGuzikowWAktualnymOknie[numerGuzika][1]; i++) {
+			aktualneOkno[6] += o;
+		}
+		aktualneOkno[6] += okno[6].substring(pozycjaGuzikowWAktualnymOknie[numerGuzika][0]+pozycjaGuzikowWAktualnymOknie[numerGuzika][1]);
+		zaznaczonyGuzikWAktualnymOknie = numerGuzika;
+		
+		return aktualneOkno;
 	}
 
 	public static final String[] getAktualneOkno() {
 		return aktualneOkno;
+	}
+
+	public static int[][] getPozycjaGuzikowWAktualnymOknie() {
+		return pozycjaGuzikowWAktualnymOknie;
+	}
+
+	public static int getZaznaczonyGuzikWAktualnymOknie() {
+		return zaznaczonyGuzikWAktualnymOknie;
 	}
 }

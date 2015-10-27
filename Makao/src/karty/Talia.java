@@ -82,7 +82,22 @@ public class Talia{
 	}
 ///////////////////////////////////////////////////////////////////////////
 	public Karta popTalia() {
-		return this.talia.pop();
+		//jesli zabraknie w talii kart
+		try {
+			return this.talia.pop();
+		} catch (Exception e) {
+			//jesli sa karty w uzywanych kartach to sproboje przerzucic
+			try {
+				przelozUzyteKartyDoTalii();
+				pushUzyteKarty(this.talia.remove(this.talia.size()-1));
+				tasuj();
+				return this.talia.pop();
+			} 
+			//jesli jest tylko jedna karta i to na stosie uzywanych to zwraca nic
+			catch (Exception e1) {
+				return null;
+			}
+		}
 	}
 	
 	public void pushTalia(Karta karta) {

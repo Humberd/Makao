@@ -106,7 +106,7 @@ public class OknoDialogowe {
 	public static final String[] akcja() {
 		idOknaDialogowego = 3;
 		aktualneOkno = okno.clone();
-		zaznaczonyGuzikWAktualnymOknie = -1;
+		zaznaczonyGuzikWAktualnymOknie = 1;
 		dodajWiadomosc(new ArrayList<String>(predefiniowaneOkna.keySet()).get(3));
 		dodajGuziki(new ArrayList<String[]>(predefiniowaneOkna.values()).get(3));
 		return aktualneOkno;

@@ -130,7 +130,30 @@ public class Arbiter {
 				return false;
 			}
 		}
+		//jesli ktos chce zmiany koloru
+		if (gra.getZmianaKoloru() != null) {
+			// to moge tylko rzucic zadany kolor
+			if (karta.getKolor().equals(gra.getZmianaKoloru())) {
+				return true;
+			}
+			//
+			else {
+				return false;
+			}
+		}
+		//5 na wszystko, wszystko na 
+		//tu nie mam zadnych wiecej warunkow, bo wczesniejsze ify posprawdzaly inne mozliwosci. tutaj zostaly tylko œcinki
+		if (karta.getWartosc() == 5 && gra.getZmianaKoloru() == null && gra.getZadanie() == 0 && gra.getIleKartDoPobrania() == 0 && gra.getIleKolejekTrzebaStac() == 0) {
+			return true;
+		}
+		if (kartaBazowa.getWartosc() == 5) {
+			return true;
+		}
 		
-		return true;
+		//dla pozostalych
+		if (kartaBazowa.getWartosc() == karta.getWartosc() || kartaBazowa.getKolor().equals(karta.getKolor())) {
+			return true;
+		}
+		return false;
 	}
 }

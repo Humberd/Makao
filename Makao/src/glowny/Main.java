@@ -39,7 +39,7 @@ public class Main {
 //					continue;
 //				} else {
 //					int index = Integer.parseInt(coRobic);
-//					if (index >= sawik.getReka().size()) {
+//					if (index >= sawik.getReka().size( )) {
 //						throw new Exception();
 //					}
 //					sawik.pushWybraneKarty(sawik.getReka().remove(index));

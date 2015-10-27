@@ -143,6 +143,14 @@ public class Gra {
 	 * Metoda przekazuj¹ca ruch nastêpnemu graczowi. Jeœli nie ma graczy przy stole ustala wartosæ this.aktualnyRuch na 0
 	 */
 	public void przekazRuchNastepnemuGraczowi() {
+		//jesli ktos cos ¿¹da
+		if (zadanie != 0) {
+			//jesli minela pelna kolejka
+			if (++zadanieKolejka == rozmiarStolu +1) {
+				zadanie = 0;
+			}
+		}
+		
 		this.czyMozeZadac = false;
 		this.czyMozeZmienicKolor = false;
 		if (this.rozmiarStolu == this.getWolneMiejscaPrzyStole()) {
@@ -255,8 +263,10 @@ public class Gra {
 				if (i == this.aktualnyRuch) {
 					//jesli jest jego ruch, to sprawdzam, czy moze zmienic kolor
 					if (this.czyMozeZmienicKolor) {
-						//jesli moze zmienic kolor, to zmienia
-						this.zmianaKoloru = kolor;
+						if (kolor != null) {
+							//jesli moze zmienic kolor, to zmienia
+							this.zmianaKoloru = kolor;
+						}
 						return true;
 					}
 				} else {
@@ -285,10 +295,12 @@ public class Gra {
 				if (i == this.aktualnyRuch) {
 					//jesli to jest jego ruch, to sprawdzam, czy mo¿na ¿¹daæ
 					if (this.czyMozeZadac) {
-						//jesli mozna ¿¹daæ, to zmienia ¿¹danie
-						this.zadanie = wartosc;
-						//oraz zaczyna kolejke ¿¹dania od nowa
-						this.zadanieKolejka = 0;
+						if (wartosc != -1) {
+							//jesli mozna ¿¹daæ, to zmienia ¿¹danie
+							this.zadanie = wartosc;
+							//oraz zaczyna kolejke ¿¹dania od nowa
+							this.zadanieKolejka = 0;
+						}
 						return true;
 					}
 				} else {
@@ -326,7 +338,10 @@ public class Gra {
 						this.talia.pushUzyteKarty(gracze[i].getReka().remove(gracze[i].getIndeksWybranejKartyWRece()));					
 						//jesli ta karta byla J(Jopkiem, Waletem)
 						if (karta.getZnak().equals("J")) {
+							zmianaKoloru = null;
 							czyMozeZadac = true;
+							//resetuje kolejke
+							zadanieKolejka = 0;
 						} 
 						//albo byla A(Asem)
 						else if (karta.getZnak().equals("A")) {
@@ -342,6 +357,26 @@ public class Gra {
 						}
 						else if (karta.getWartosc() == 4) {
 							ileKolejekTrzebaStac += 1;
+						}
+						//dama bita
+						else if (karta.getWartosc() == 12 &&(karta.getKolor().equals("Kier")||karta.getKolor().equals("Pik"))) {
+							//jesli karta pod dama jest jopkiem i jest aktualne zadanie
+							if (talia.peekUzyteKarty().getWartosc() == 11 && zadanie !=0) {
+								zadanie = 0;
+								zadanieKolejka = 0;
+							} 
+							//
+							else {
+								ileKartDoPobrania = 0;
+								ileKolejekTrzebaStac = 0;
+								zmianaKoloru = null;
+							}
+						}
+						//jesli spelnilem zmiane koloru
+						else if (karta.getKolor() != null) {
+							if (karta.getKolor().equals(zmianaKoloru)) {
+								zmianaKoloru = null;
+							}
 						}
 						return true;
 					}

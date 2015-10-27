@@ -322,7 +322,6 @@ public class Gra {
 				if (i == this.aktualnyRuch) {
 					// jesli arbiter powie, ¿e ruch jest dozwolony
 					if (arbiter.czyRuchJestDozwolony(karta)) {
-						
 						// wrzucam karte na stos uzytych kart
 						this.talia.pushUzyteKarty(gracze[i].getReka().remove(gracze[i].getIndeksWybranejKartyWRece()));					
 						//jesli ta karta byla J(Jopkiem, Waletem)
@@ -332,6 +331,17 @@ public class Gra {
 						//albo byla A(Asem)
 						else if (karta.getZnak().equals("A")) {
 							czyMozeZmienicKolor = true;
+						}
+						else if (karta.getWartosc() == 2 || karta.getWartosc() == 3) {
+							ileKartDoPobrania += karta.getWartosc();
+						}
+						else if (karta.getWartosc() == 13) {
+							if (karta.getKolor().equals("Pik") || karta.getKolor().equals("Kier")) {
+								ileKartDoPobrania  += 5;
+							}
+						}
+						else if (karta.getWartosc() == 4) {
+							ileKolejekTrzebaStac += 1;
 						}
 						return true;
 					}

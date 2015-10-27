@@ -205,6 +205,9 @@ public class Lanterna {
 								}
 								if (czyZaakceptowano == true) {
 									//tutaj co robie jestli zaakceptowano ruch
+									koniecRuchuGracza();
+								} else {
+									System.out.println("Blad w oknie zmiany koloru: switch() nie zaakcpetowal");
 								}
 							}
 							//jesli jest okno ¿¹dania
@@ -230,6 +233,9 @@ public class Lanterna {
 								}
 								if (czyZaakceptowano == true) {
 									//tutaj co robie jestli zaakceptowano ruch
+									koniecRuchuGracza();
+								} else {
+									System.out.println("Blad w oknie zadania: switch() nie zaakceptowal");
 								}
 							}
 							//jesli jest okno akcji
@@ -253,7 +259,7 @@ public class Lanterna {
 											czyJestOknoDialogowe = false;
 											odswiezKartyGracza();
 											odswiezOknoDialogowe();
-											gra.przekazRuchNastepnemuGraczowi();
+											koniecRuchuGracza();
 										}
 										break;
 									//REZYGNUJÊ
@@ -263,19 +269,22 @@ public class Lanterna {
 											czyJestFocusNaOknoDialogowe = false;
 											czyJestFocusNaSwojeKarty = true;
 											czyJestOknoDialogowe = false;
+											if (gra.getCzyMozeZadac() == false || gra.getCzyMozeZmienicKolor() == false) {
+												koniecRuchuGracza();
+											}
 										}
 										if (gra.getCzyMozeZadac()) {
 											OknoDialogowe.zadaj();
 											czyJestFocusNaOknoDialogowe = true;
 											czyJestFocusNaSwojeKarty = false;
 											czyJestOknoDialogowe = true;
-											gra.przekazRuchNastepnemuGraczowi();
+											koniecRuchuGracza();
 										} else if (gra.getCzyMozeZmienicKolor()) {
 											OknoDialogowe.wybierzKolor();
 											czyJestFocusNaOknoDialogowe = true;
 											czyJestFocusNaSwojeKarty = false;
 											czyJestOknoDialogowe = true;
-											gra.przekazRuchNastepnemuGraczowi();
+											koniecRuchuGracza();
 										}
 										odswiezOknoDialogowe();
 										break;
@@ -289,6 +298,7 @@ public class Lanterna {
 											czyJestFocusNaSwojeKarty = true;
 											czyJestOknoDialogowe = false;
 											odswiezOknoDialogowe();
+											koniecRuchuGracza();
 										}
 										break;
 									default:
@@ -559,6 +569,8 @@ public class Lanterna {
 			napis = "Zmiana koloru: "+ gra.getZmianaKoloru();
 		} else if (gra.getIleKartDoPobrania() != 0) {
 			napis = "Suma do pobrania: "+ gra.getIleKartDoPobrania();
+		} else if (gra.getIleKolejekTrzebaStac() !=0) {
+			napis = "Do stania: "+gra.getIleKolejekTrzebaStac();
 		}
 		sw.drawString(WIDTH/2 - napis.length()/2, pozycjaStanuRuchu,napis);
 		screen.refresh();
@@ -603,21 +615,29 @@ public class Lanterna {
 	}
 	
 	public void kolejGracza() {
-		czyGraczRzucilWszystkieKarty = false;
-		czyGraczRzucilCoNajmniejJednaKarte = false;
-		czyJestFocusNaOknoDialogowe = false;
-		czyJestFocusNaSwojeKarty = true;
-		czyJestOknoDialogowe = true;
-		OknoDialogowe.akcja();
-		odswiezOknoDialogowe();
-		odswiezKartyGracza();
-		odswiezStosKart();
-		odswiezKartyPrzeciwnikow();
-		odswiezStanRuchu();
-		odswiezCzyjRuch();
+		if (gracz.getIleStojeKolejek() == 0) {
+			czyGraczRzucilWszystkieKarty = false;
+			czyGraczRzucilCoNajmniejJednaKarte = false;
+			czyJestFocusNaOknoDialogowe = false;
+			czyJestFocusNaSwojeKarty = true;
+			czyJestOknoDialogowe = true;
+			gra.setCzyMozeZadac(false);
+			gra.setCzyMozeZmienicKolor(false);
+			OknoDialogowe.akcja();
+			odswiezOknoDialogowe();
+			odswiezKartyGracza();
+			odswiezStosKart();
+			odswiezKartyPrzeciwnikow();
+			odswiezStanRuchu();
+			odswiezCzyjRuch();
+		} else {
+			gracz.setIleStojeKolejek(gracz.getIleStojeKolejek()-1);
+			koniecRuchuGracza();
+		}
 	}
 	
 	public void koniecRuchuGracza() {
+		gra.przekazRuchNastepnemuGraczowi();
 		int indexGracza = 0;
 		for (int i = 0; i < gra.getGracze().length; i++) {
 			if (gra.getGracze()[i] == gracz) {
@@ -627,6 +647,7 @@ public class Lanterna {
 		}
 		while (gra.getAktualnyRuch() != indexGracza) {
 			try {
+				System.out.println("jestem tutaj");
 				Thread.sleep(1000);
 				odswiezKartyPrzeciwnikow();
 				odswiezStanRuchu();
